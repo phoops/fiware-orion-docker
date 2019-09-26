@@ -7,12 +7,9 @@ env:
   - COMMIT=${TRAVIS_COMMIT::6}
   - secure: gaFOdncU6uk9e6zXzFpNhpEpUtyBGtA9wZyn4GWylKMcFF1enFay3MdqXd5Plbx0+5Sth8lJMUcfYPzloe+T7xdG24L+d821jZDlgxFgW3mW319gebkR9zNCMBaB6kwC2VPZ2FIjB16n3HMcxST3FuxfL7lFN4AB9+J2S8PMffpBylAd193xslEH6KJxjCKimhQMXuiI3tfYboeFkXAnysmxB63u8/dFSd7oNO8LLr6kxwSFR9y4pQv/kSs3/IlEM10DGiejS3ioVvY5q8Jtt5o3zPjF/ZNhoPwfihN1JSBBFn6YX3vIBvssyFxDZumx8P663F3egRmKS5m7+/RQ6+N/nqtbBlswy5qQNlXyEogkUpW3nFz/EQ/3dCpDASOj2VqVr/uIbM3Gwy6KQe/f9Qg1lDgNlzPu5VKGRH7rVXjhCafU2pLMim1i0OLGq+TFvHtM4r4l3vCVRyooRCO/bcXVQVGL/BZ/3X2yeYxzw0b7lQ+EoDq8qVdAhVkzCIYf2GuW+pTDstrd38Lw8Vnxlp9rwIMysG3HFhPniJSiGihfEgRGccpWvTy9Oq85jrGqFlLoS2NmY9i5bNCUXwMeTRyCdEKd+z9fswbkhW8Qz/cbr7icBgDiLDCaHTqK6sp7NivbDJxWtrFgBK7GrxkD02awoZHe3IfRiSzMAGCSFek=
   - secure: brJaZKHJDVKA9ecMRbs7cdT7+W9g3JG2+1HULULldCTCYew32TONGcn9fsjxXPgtRbpJNf70mcyVaABg/iVrGnbYJcNLn6iVwqDWE0oprMEaTAyips5YXt12Nc2AERBV0Q8K9JGOmG55/wAXLEhnm5racFnBSL0QE+cGfa/dtzZ0KELdNqQbuXZyaKashNQ+msanyiKxZ28bayvHcFBYD8CtjAoKMFG5e1Q4ddlLgXWkPzCCxCwLKxjnjEGukOUmcVWi4rbEbEnIZi/RBwSGMkvYfVvHxG/Cfkq4v2smRduFyr07429qg5rXUBNZO/X2rjuYlOkxf24R5h+n3RwJhgg0H9aXi1poCwAcqNr8Lp+Mbp+7oE9N0ym3XrKwpk0G0o982yQI+yW60AEciv8l5BXxIt6FhSFjHMJSAZJhKB4iZjOBICYX6Q4WTDAYiVyLyMBOgZY8jOp3lQh8N7xrahe/prvn2qowHb6E7GX44j0FXCu/mM+Uur6KywGcXMaN4NGlhpv/yzvJ46Y5RbRBTHhcr7yBBhPtOf3qvBn2eU8iMm+tkBCN8ELXdhelD14Jqz9SRwCCyiVNjxrY3E4OA3KrRTNleBssKE1iOZDg4PchDhQQtj7UCUZIRbII2WkfZKdKG3BdJar85nbsBkrREOhuy67dq7ffPUpYGnjuZFo=
-install:
+script:
 - export REPO=$DOCKER_USER/orion
 - docker build -f Dockerfile -t $REPO:$COMMIT .
-script:
-- docker images | grep -q $REPO
-- docker run $REPO:$COMMIT | grep $(grep "ENV VERSION" Dockerfile | cut -d'=' -f2)
 deploy:
 - provider: script
   script: chmod +x ./push_to_docker_hub.sh && ./push_to_docker_hub.sh
