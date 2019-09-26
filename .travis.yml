@@ -1,0 +1,23 @@
+language: bash
+sudo: required
+services:
+- docker
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::6}
+  matrix:
+  - DOCKER_USER=phoops
+  - secure: L54M8yOrxbi5LmdT99ULnjHguhr8fkmEe4nOroD0ItN7PIXkZn+e/XZIFrExk8m4s5j7F8qicW+u0kYwgI+VhvqcadilvhDnv0M4ivzu5mkuaT8DSLRmVBp6O1PDl2QdbqJyxCi0WoFeeJKG+DeSWy2dtnTfRp5ETxS/3JpCSHP5gPVzm/F9ShMeORN9C0PLwpeJTLSui1T4Xmckfjvq6tGw0+5LtODuQmXFPYJaxZ2jQfOXSLWqihPU39UpTIrcnudlvSllkxbGbjcXUo1zitafTUO8y245fFB28vPfRc4vS32DsHmqwDs005/8NOR0fOP1yaJYqArrVtYxKy1xU+hql2JvGjN4/4PMwIPFAlzs8NJvuj2QU1nv8TaRMtuc9PljooNVK9/9AyY3rsyIZt0IlR09J5ozAgGWVmrhOX493m3HxLCTVD20W51DWAKtUXBGDSlwAHnAvlu6Rf5KO8FyIIqL53pu6emx7blu3dZ9nvF/7tXlQzlETeni/1Pwt8yZzrZxFWGAzqDkAh834hDuoKzor9hYrsmCEpI89UhDNuy6U5xtZaCZDwRvd808M+Wuon+GQiX9LXKdvJK4Mb3g0cAiUP5ChZxDXXpbLbzhUv/urA7UMK3jZoett4KcaWQZBPcSAqPdCkqNytN8AH6PxmXv+ATxZJY2hS+PJXw=
+install:
+- export REPO=$DOCKER_USER/orion
+- docker build -f Dockerfile -t $REPO:$COMMIT .
+script:
+- docker images | grep -q $REPO
+- docker run $REPO:$COMMIT | grep $(grep "ENV VERSION" Dockerfile | cut -d'=' -f2)
+deploy:
+- provider: script
+  script: chmod +x ./push_to_docker_hub.sh && ./push_to_docker_hub.sh
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH == "master" || -n $TRAVIS_TAG
