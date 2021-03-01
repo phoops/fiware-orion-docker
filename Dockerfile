@@ -1,4 +1,4 @@
-FROM fiware/orion:2.4.1
+FROM fiware/orion:2.5.2
 
 MAINTAINER Phoops srl
 
