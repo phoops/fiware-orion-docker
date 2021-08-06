@@ -13,4 +13,4 @@ done
 
 echo "==> MongoDB is up"
 
-exec /usr/bin/contextBroker -fg -multiservice -ngsiv1Autocast "$@"
+exec /usr/bin/contextBroker -fg -multiservice -ngsiv1Autocast -disableFileLog "$@"
