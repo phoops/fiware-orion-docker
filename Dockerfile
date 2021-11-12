@@ -1,6 +1,7 @@
-FROM fiware/orion:2.6.1
+FROM fiware/orion:3.3.0-PRE-137
 
-MAINTAINER Phoops srl
+LABEL maintainer="Phoops info@phoops.it"
+LABEL project="Fiware-Orion-Docker"
 
 ENV MONGODB_HOST localhost
 ENV MONGODB_PORT 27017
